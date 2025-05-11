@@ -1,28 +1,47 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { toast } from 'react-hot-toast'
 
 export default function Home() {
   const [selectedVotes, setSelectedVotes] = useState<number[]>([])
+  const [isVotingOpen, setIsVotingOpen] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  // Verificar si las votaciones están abiertas
+  useEffect(() => {
+    const checkVotingStatus = async () => {
+      try {
+        const response = await fetch('/api/voting-status')
+        const data = await response.json()
+        setIsVotingOpen(data.isOpen)
+      } catch (error) {
+        console.error('Error al verificar estado de votación:', error)
+      }
+    }
+    checkVotingStatus()
+  }, [])
 
   const handleVoteSelect = (number: number) => {
     setSelectedVotes(prev => {
-      // Si ya está seleccionado, lo removemos
       if (prev.includes(number)) {
         return prev.filter(n => n !== number)
       }
-      // Si ya hay 3 votos, no permitimos más
       if (prev.length >= 3) {
+        toast.error('¡Solo puedes seleccionar 3 números!')
         return prev
       }
-      // Agregamos el nuevo voto
       return [...prev, number]
     })
   }
 
   const handleSubmit = async () => {
-    if (selectedVotes.length === 0) return
+    if (selectedVotes.length === 0) {
+      toast.error('Selecciona al menos un número')
+      return
+    }
 
+    setIsSubmitting(true)
     try {
       const response = await fetch('/api/votes', {
         method: 'POST',
@@ -33,13 +52,28 @@ export default function Home() {
       })
 
       if (response.ok) {
+        toast.success('¡Votos registrados con éxito!')
         setSelectedVotes([])
-        alert('¡Votos registrados con éxito!')
+      } else {
+        const data = await response.json()
+        toast.error(data.error || 'Error al registrar los votos')
       }
     } catch (error) {
-      console.error('Error al enviar votos:', error)
-      alert('Error al registrar los votos')
+      toast.error('Error al enviar los votos')
+    } finally {
+      setIsSubmitting(false)
     }
+  }
+
+  if (!isVotingOpen) {
+    return (
+      <main className="min-h-screen flex items-center justify-center p-4">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold mb-4">Votaciones Cerradas</h1>
+          <p className="text-gray-600">Las votaciones no están disponibles en este momento.</p>
+        </div>
+      </main>
+    )
   }
 
   return (
@@ -60,15 +94,19 @@ export default function Home() {
             <button
               key={i + 1}
               onClick={() => handleVoteSelect(i + 1)}
-              className={`p-4 text-xl font-bold rounded-lg transition-colors
+              disabled={selectedVotes.length >= 3 && !selectedVotes.includes(i + 1)}
+              className={`
+                aspect-square
+                text-xl font-bold
+                rounded-lg
+                transition-all
+                transform hover:scale-105
+                disabled:opacity-50 disabled:cursor-not-allowed
                 ${selectedVotes.includes(i + 1)
-                  ? 'bg-blue-500 text-white'
-                  : 'bg-gray-100 hover:bg-gray-200'
+                  ? 'bg-blue-500 text-white shadow-lg'
+                  : 'bg-white border-2 border-gray-200 hover:border-blue-500'
                 }
-                ${selectedVotes.length >= 3 && !selectedVotes.includes(i + 1)
-                  ? 'opacity-50 cursor-not-allowed'
-                  : ''
-                }`}
+              `}
             >
               {i + 1}
             </button>
@@ -77,14 +115,21 @@ export default function Home() {
 
         <button
           onClick={handleSubmit}
-          disabled={selectedVotes.length === 0}
-          className={`w-full py-3 px-6 rounded-lg text-white font-bold
+          disabled={selectedVotes.length === 0 || isSubmitting}
+          className={`
+            w-full py-4 px-6
+            rounded-lg
+            text-white font-bold
+            transition-all
+            transform hover:scale-105
             ${selectedVotes.length > 0
               ? 'bg-green-500 hover:bg-green-600'
               : 'bg-gray-400 cursor-not-allowed'
-            }`}
+            }
+            ${isSubmitting ? 'opacity-50 cursor-wait' : ''}
+          `}
         >
-          Enviar Votos
+          {isSubmitting ? 'Enviando...' : 'Enviar Votos'}
         </button>
       </div>
     </main>
