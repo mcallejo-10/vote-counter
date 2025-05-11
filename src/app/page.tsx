@@ -97,14 +97,14 @@ export default function Home() {
               disabled={selectedVotes.length >= 3 && !selectedVotes.includes(i + 1)}
               className={`
                 aspect-square
-                text-xl font-bold
+                text-3xl font-bold
                 rounded-lg
                 transition-all
                 transform hover:scale-105
                 disabled:opacity-50 disabled:cursor-not-allowed
                 ${selectedVotes.includes(i + 1)
-                  ? 'bg-blue-500 text-white shadow-lg'
-                  : 'bg-white border-2 border-gray-200 hover:border-blue-500'
+                  ? 'bg-green-800 text-yellow-400 shadow-lg'
+                  : 'bg-white border-4 border-gray-200 text-gray-500 hover:border-blue-500'
                 }
               `}
             >
