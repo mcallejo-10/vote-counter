@@ -1,7 +1,5 @@
 import { NextResponse } from 'next/server'
-import { PrismaClient } from '@/generated/prisma'
-
-const prisma = new PrismaClient()
+import { prisma } from '@/lib/db'
 
 export async function POST(request: Request) {
   try {
@@ -20,9 +18,13 @@ export async function POST(request: Request) {
     }
 
     const currentStatus = await prisma.votingStatus.findFirst()
+    if (!currentStatus) {
+      return NextResponse.json({ error: 'Estado de votación no encontrado' }, { status: 500 })
+    }
+
     const newStatus = await prisma.votingStatus.update({
-      where: { id: currentStatus?.id },
-      data: { isOpen: !currentStatus?.isOpen },
+      where: { id: currentStatus.id },
+      data: { isOpen: !currentStatus.isOpen },
     })
 
     return NextResponse.json({ isOpen: newStatus.isOpen })

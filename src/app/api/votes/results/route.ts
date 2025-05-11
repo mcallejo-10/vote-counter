@@ -3,6 +3,12 @@ import { prisma } from '@/lib/db'
 
 export async function GET() {
   try {
+    // Verificar si hay votos
+    const votesExist = await prisma.vote.findFirst()
+    if (!votesExist) {
+      return NextResponse.json({ results: [] })
+    }
+
     // Obtener el conteo de votos por número
     const voteCounts = await prisma.vote.groupBy({
       by: ['number'],
