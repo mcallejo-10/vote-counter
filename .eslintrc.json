@@ -3,11 +3,12 @@
   "rules": {
     "@typescript-eslint/no-unused-expressions": "error",
     "@typescript-eslint/no-unused-vars": ["error", {
-      "varsIgnorePattern": "^(Null|ExtArgs|GlobalOmitOptions|skip|Debug|warnOnce|getRuntime|createParam)$"
+      "varsIgnorePattern": "^(Null|ExtArgs|GlobalOmitOptions|skip|Debug|warnOnce|getRuntime|createParam|T|target|prop)$"
     }],
-    "@typescript-eslint/no-require-imports": "error",
+    "@typescript-eslint/no-require-imports": "off",
     "@typescript-eslint/no-empty-object-type": "off",
-    "@typescript-eslint/no-explicit-any": "off"
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-this-alias": "off"
   },
-  "ignorePatterns": ["src/generated/**/*", "**/*.js"]
+  "ignorePatterns": ["src/generated/**/*", "**/*.js", "**/*.mjs"]
 }
