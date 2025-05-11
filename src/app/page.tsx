@@ -60,6 +60,7 @@ export default function Home() {
       }
     } catch (error) {
       toast.error('Error al enviar los votos')
+      console.error('Error al enviar los votos:', error)
     } finally {
       setIsSubmitting(false)
     }

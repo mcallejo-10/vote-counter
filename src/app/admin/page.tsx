@@ -30,6 +30,7 @@ export default function AdminPage() {
       }
     } catch (error) {
       setError('Error al iniciar sesión')
+      console.error(error)
     }
   }
 
@@ -50,6 +51,7 @@ export default function AdminPage() {
       }
     } catch (error) {
       setError('Error al cambiar el estado de la votación')
+      console.error(error)
     } finally {
       setIsSubmitting(false)
     }

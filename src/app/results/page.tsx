@@ -20,6 +20,7 @@ export default function ResultsPage() {
         setResults(data.results)
       } catch (error) {
         setError('Error al cargar los resultados')
+        console.error(error)
       } finally {
         setIsLoading(false)
       }
