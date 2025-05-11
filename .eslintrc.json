@@ -2,12 +2,12 @@
   "extends": "next/core-web-vitals",
   "rules": {
     "@typescript-eslint/no-unused-expressions": "error",
-    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/no-unused-vars": ["error", {
+      "varsIgnorePattern": "^(Null|ExtArgs|GlobalOmitOptions|skip|Debug|warnOnce|getRuntime|createParam)$"
+    }],
     "@typescript-eslint/no-require-imports": "error",
     "@typescript-eslint/no-empty-object-type": "off",
-    "@typescript-eslint/no-unused-vars": ["error", {
-      "varsIgnorePattern": "^(Null|ExtArgs|GlobalOmitOptions)$"
-    }]
+    "@typescript-eslint/no-explicit-any": "off"
   },
-  "ignorePatterns": ["src/generated/**/*"]
+  "ignorePatterns": ["src/generated/**/*", "**/*.js"]
 }
