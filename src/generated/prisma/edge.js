@@ -160,16 +160,17 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": "postgresql://postgres:postgres@localhost:5432/vote_counter"
+        "value": null
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Vote {\n  id        Int      @id @default(autoincrement())\n  number    Int // Número del concursante\n  sessionId String // Para controlar los 3 votos por sesión\n  createdAt DateTime @default(now())\n}\n\nmodel VotingStatus {\n  id        Int      @id @default(autoincrement())\n  isOpen    Boolean  @default(false)\n  password  String // Contraseña del admin\n  updatedAt DateTime @updatedAt\n}\n",
-  "inlineSchemaHash": "e0ea83d236b21955db5ba6ca397cbe200938ef063cf9db04ea7ecb209863c798",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Vote {\n  id        Int      @id @default(autoincrement())\n  number    Int // Número del concursante\n  sessionId String // Para controlar los 3 votos por sesión\n  createdAt DateTime @default(now())\n}\n\nmodel VotingStatus {\n  id        Int      @id @default(autoincrement())\n  isOpen    Boolean  @default(false)\n  password  String // Contraseña del admin\n  updatedAt DateTime @updatedAt\n}\n",
+  "inlineSchemaHash": "baa1a82ccb6cef3ae43253348e39af0d5dc7d768e39a9e5d311fc14ebf4e5d2f",
   "copyEngine": true
 }
 config.dirname = '/'
