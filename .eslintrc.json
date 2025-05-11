@@ -3,7 +3,11 @@
   "rules": {
     "@typescript-eslint/no-unused-expressions": "error",
     "@typescript-eslint/no-unused-vars": "error",
-    "@typescript-eslint/no-require-imports": "error"
+    "@typescript-eslint/no-require-imports": "error",
+    "@typescript-eslint/no-empty-object-type": "off",
+    "@typescript-eslint/no-unused-vars": ["error", {
+      "varsIgnorePattern": "^(Null|ExtArgs|GlobalOmitOptions)$"
+    }]
   },
   "ignorePatterns": ["src/generated/**/*"]
 }
