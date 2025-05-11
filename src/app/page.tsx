@@ -69,8 +69,8 @@ export default function Home() {
     return (
       <main className="min-h-screen flex items-center justify-center p-4">
         <div className="text-center">
-          <h1 className="text-2xl font-bold mb-4">Votaciones Cerradas</h1>
-          <p className="text-gray-600">Las votaciones no están disponibles en este momento.</p>
+          <h1 className="text-5xl font-bold mb-4">Votacions <br /> Tancades</h1>
+          <p className="text-gray-500">Les votacions no estan disponibles en aquests moments.</p>
         </div>
       </main>
     )
@@ -78,11 +78,11 @@ export default function Home() {
 
   return (
     <main className="min-h-screen p-4 max-w-md mx-auto">
-      <h1 className="text-2xl font-bold text-center mb-8">Votación de Talentos</h1>
+      <h1 className="text-2xl font-bold text-center mb-8">Votació <br /> Talent Xou</h1>
       
       <div className="mb-6">
-        <p className="text-center mb-4">
-          Debes seleccionar exactamente 3 números para votar
+        <p className="text-center text-xl mb-4">
+          Selecciona els 3 números <br /> que més than agradat 
           <br />
           <span className="text-sm text-gray-600">
             ({3 - selectedVotes.length} números pendientes de seleccionar)
