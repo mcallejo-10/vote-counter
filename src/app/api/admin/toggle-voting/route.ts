@@ -1,30 +1,31 @@
 import { NextResponse } from 'next/server'
-import { prisma } from '@/lib/db'
+import { prisma } from '@/lib/prisma'
 
 export async function POST(request: Request) {
   try {
     const { password } = await request.json()
     
-    const votingStatus = await prisma.votingStatus.findFirst()
-    
-    if (!votingStatus || votingStatus.password !== password) {
-      return NextResponse.json(
-        { error: 'No autorizado' },
-        { status: 401 }
-      )
+    // Obtener la contraseña desde las variables de entorno
+    const adminPassword = process.env.ADMIN_PASSWORD
+
+    if (!adminPassword) {
+      console.error('ADMIN_PASSWORD no está configurada')
+      return NextResponse.json({ error: 'Error de configuración del servidor' }, { status: 500 })
     }
 
-    const updatedStatus = await prisma.votingStatus.update({
-      where: { id: votingStatus.id },
-      data: { isOpen: !votingStatus.isOpen },
+    if (password !== adminPassword) {
+      return NextResponse.json({ error: 'Contraseña incorrecta' }, { status: 401 })
+    }
+
+    const currentStatus = await prisma.votingStatus.findFirst()
+    const newStatus = await prisma.votingStatus.update({
+      where: { id: currentStatus?.id },
+      data: { isOpen: !currentStatus?.isOpen },
     })
 
-    return NextResponse.json({ isOpen: updatedStatus.isOpen })
+    return NextResponse.json({ isOpen: newStatus.isOpen })
   } catch (error) {
-    console.error('Error al cambiar estado de votación:', error)
-    return NextResponse.json(
-      { error: 'Error al cambiar estado de votación' },
-      { status: 500 }
-    )
+    console.error('Error al cambiar estado:', error)
+    return NextResponse.json({ error: 'Error del servidor' }, { status: 500 })
   }
 }
