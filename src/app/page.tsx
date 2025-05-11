@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import toast from 'react-hot-toast'
 
 export default function Home() {
-  const [selectedNumber, setSelectedNumber] = useState<number | null>(null)
+  const [selectedNumbers, setSelectedNumbers] = useState<number[]>([])
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [votingClosed, setVotingClosed] = useState(false)
 
@@ -22,9 +22,21 @@ export default function Home() {
     }
   }
 
+  const handleNumberClick = (number: number) => {
+    setSelectedNumbers(prev => {
+      if (prev.includes(number)) {
+        return prev.filter(n => n !== number)
+      }
+      if (prev.length >= 3) {
+        return prev
+      }
+      return [...prev, number]
+    })
+  }
+
   const handleVote = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!selectedNumber) return
+    if (selectedNumbers.length === 0) return
 
     setIsSubmitting(true)
     try {
@@ -43,18 +55,18 @@ export default function Home() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ number: selectedNumber }),
+        body: JSON.stringify({ votes: selectedNumbers }),
       })
 
       if (response.ok) {
-        toast.success('¡Voto registrado con éxito!')
-        setSelectedNumber(null)
+        toast.success('¡Votos registrados con éxito!')
+        setSelectedNumbers([])
       } else {
-        toast.error('Error al registrar el voto')
+        toast.error('Error al registrar los votos')
       }
     } catch (error) {
       console.error('Error:', error)
-      toast.error('Error al procesar el voto')
+      toast.error('Error al procesar los votos')
     } finally {
       setIsSubmitting(false)
     }
@@ -81,30 +93,37 @@ export default function Home() {
         <h2 className="text-center text-3xl font-extrabold text-gray-900">
           Votación
         </h2>
+        <p className="text-center text-gray-600">
+          Selecciona hasta 3 números
+        </p>
         <form onSubmit={handleVote} className="mt-8 space-y-6">
           <div className="grid grid-cols-2 gap-4">
             {[1, 2, 3, 4].map((number) => (
               <button
                 key={number}
                 type="button"
-                onClick={() => setSelectedNumber(number)}
+                onClick={() => handleNumberClick(number)}
                 className={`
                   p-6 text-2xl font-bold rounded-lg
                   transition-all duration-200
                   ${
-                    selectedNumber === number
+                    selectedNumbers.includes(number)
                       ? 'bg-blue-500 text-white'
                       : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
                   }
+                  ${selectedNumbers.length >= 3 && !selectedNumbers.includes(number) ? 'opacity-50 cursor-not-allowed' : ''}
                 `}
               >
                 {number}
               </button>
             ))}
           </div>
+          <div className="text-center text-sm text-gray-600">
+            {selectedNumbers.length}/3 números seleccionados
+          </div>
           <button
             type="submit"
-            disabled={!selectedNumber || isSubmitting}
+            disabled={selectedNumbers.length === 0 || isSubmitting}
             className={`
               w-full py-3 px-4
               border border-transparent
@@ -114,7 +133,7 @@ export default function Home() {
               focus:outline-none focus:ring-2
               focus:ring-offset-2 focus:ring-blue-500
               transition-all
-              ${(!selectedNumber || isSubmitting) && 'opacity-50 cursor-not-allowed'}
+              ${(selectedNumbers.length === 0 || isSubmitting) && 'opacity-50 cursor-not-allowed'}
             `}
           >
             {isSubmitting ? 'Enviando...' : 'Votar'}
