@@ -36,8 +36,8 @@ export default function Home() {
   }
 
   const handleSubmit = async () => {
-    if (selectedVotes.length === 0) {
-      toast.error('Selecciona al menos un número')
+    if (selectedVotes.length < 3) {
+      toast.error('Debes seleccionar exactamente 3 números para votar')
       return
     }
 
@@ -82,15 +82,15 @@ export default function Home() {
       
       <div className="mb-6">
         <p className="text-center mb-4">
-          Selecciona hasta 3 números para votar
+          Debes seleccionar exactamente 3 números para votar
           <br />
           <span className="text-sm text-gray-600">
-            ({3 - selectedVotes.length} votos restantes)
+            ({3 - selectedVotes.length} números pendientes de seleccionar)
           </span>
         </p>
 
         <div className="grid grid-cols-3 gap-4 mb-6">
-          {[...Array(9)].map((_, i) => (
+          {[...Array(12)].map((_, i) => (
             <button
               key={i + 1}
               onClick={() => handleVoteSelect(i + 1)}
@@ -115,14 +115,14 @@ export default function Home() {
 
         <button
           onClick={handleSubmit}
-          disabled={selectedVotes.length === 0 || isSubmitting}
+          disabled={selectedVotes.length !== 3 || isSubmitting}
           className={`
             w-full py-4 px-6
             rounded-lg
             text-white font-bold
             transition-all
             transform hover:scale-105
-            ${selectedVotes.length > 0
+            ${selectedVotes.length === 3
               ? 'bg-green-500 hover:bg-green-600'
               : 'bg-gray-400 cursor-not-allowed'
             }
