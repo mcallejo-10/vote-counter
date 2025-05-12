@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import toast from 'react-hot-toast'
 
 export default function AdminPage() {
   const [password, setPassword] = useState('')
