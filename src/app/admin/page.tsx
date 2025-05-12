@@ -147,14 +147,14 @@ export default function AdminPage() {
             ${isSubmitting ? 'opacity-50 cursor-wait' : ''}
           `}
         >
-          {isSubmitting ? 'Procesando...' : votingStatus ? 'Cerrar Votaciones' : 'Abrir Votaciones'}
+          {isSubmitting ? 'Procesando...' : votingStatus ? 'Tancar Votacions' : 'Obrir Votacions'}
         </button>
 
         <button
           onClick={handleViewResults}
           className="w-full py-4 px-6 rounded-lg text-white font-bold bg-blue-500 hover:bg-blue-600 transition-all"
         >
-          Ver Resultados
+          Veure Resultats
         </button>
 
         <button
@@ -162,7 +162,7 @@ export default function AdminPage() {
           disabled={isSubmitting}
           className="w-full py-4 px-6 rounded-lg text-white font-bold bg-red-500 hover:bg-red-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {isSubmitting ? 'Procesando...' : 'Resetear Votaciones'}
+          {isSubmitting ? 'Procesando...' : 'Resetejar Votacions'}
         </button>
       </div>
     </main>

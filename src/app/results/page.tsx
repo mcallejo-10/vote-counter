@@ -47,7 +47,7 @@ export default function ResultsPage() {
 
   return (
     <main className="min-h-screen p-4 max-w-4xl mx-auto">
-      <h1 className="text-3xl font-bold text-center mb-8">Resultados de la Votación</h1>
+      <h1 className="text-3xl font-bold text-center mb-8">Resultats de la Votació</h1>
       
       <div className="grid grid-cols-1 gap-4">
         {results.map((result) => (
@@ -56,7 +56,7 @@ export default function ResultsPage() {
             className="bg-white p-4 rounded-lg shadow-md"
           >
             <div className="flex items-center justify-between mb-2">
-              <span className="text-xl font-bold">Número {result.number}</span>
+              <span className="text-xl text-gray-800 font-bold">Número {result.number}</span>
               <span className="text-lg">{result.count} votos</span>
             </div>
             <div className="w-full bg-gray-200 rounded-full h-4">

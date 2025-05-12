@@ -96,7 +96,7 @@ export default function Home() {
           Selecciona els 3 números <br /> que més than agradat 
           <br />
           <span className="text-sm text-gray-600">
-            ({3 - selectedVotes.length} números pendientes de seleccionar)
+            ({3 - selectedVotes.length} números pendents de seleccionar)
           </span>
         </p>
 
@@ -140,7 +140,7 @@ export default function Home() {
             ${isSubmitting ? 'opacity-50 cursor-wait' : ''}
           `}
         >
-          {isSubmitting ? 'Enviando...' : 'Enviar Votos'}
+          {isSubmitting ? 'Enviando...' : 'Enviar Vots'}
         </button>
       </div>
     </main>
