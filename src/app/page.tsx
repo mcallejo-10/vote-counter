@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { toast } from 'react-hot-toast'
+import { toast, Toaster } from 'react-hot-toast'
 
 export default function Home() {
   const [selectedVotes, setSelectedVotes] = useState<number[]>([])
@@ -29,7 +29,7 @@ export default function Home() {
         return prev.filter(n => n !== number)
       }
       if (prev.length >= 3) {
-        toast.error('¡Solo puedes seleccionar 3 números!')
+        toast.error('Només pots seleccionar 3 números!')
         return prev
       }
       return [...prev, number]
@@ -38,19 +38,18 @@ export default function Home() {
 
   const handleSubmit = async () => {
     if (selectedVotes.length < 3) {
-      toast.error('Debes seleccionar exactamente 3 números para votar')
+      toast.error('Has de seleccionar exactament 3 números per votar')
       return
     }
 
     setIsSubmitting(true)
     try {
-      // Verificar si las votaciones siguen abiertas antes de enviar
       const statusResponse = await fetch('/api/voting-status')
       const statusData = await statusResponse.json()
       
       if (!statusData.isOpen) {
         setIsVotingOpen(false)
-        toast.error('Las votaciones están cerradas')
+        toast.error('Les votacions estan tancades')
         return
       }
 
@@ -90,11 +89,12 @@ export default function Home() {
 
   return (
     <main className="min-h-screen p-4 max-w-md mx-auto">
+      <Toaster position="top-center" />
       <h1 className="text-2xl font-bold text-center mb-8">Votació <br /> Talent Xou</h1>
       
       <div className="mb-6">
         <p className="text-center text-xl mb-4">
-          Selecciona els 3 números <br /> que més than agradat 
+          Selecciona els 3 números <br /> que más than agradat 
           <br />
           <span className="text-sm text-gray-600">
             ({3 - selectedVotes.length} números pendents de seleccionar)
