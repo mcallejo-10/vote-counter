@@ -9,14 +9,19 @@ export default function AdminPage() {
   const [votingStatus, setVotingStatus] = useState(false)
   const [error, setError] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [participantCount, setParticipantCount] = useState(12)
 
-  // Añadir efecto para verificar autenticación al cargar
   useEffect(() => {
     const savedPassword = localStorage.getItem('adminPassword')
     if (savedPassword) {
       setPassword(savedPassword)
       handleInitialAuth(savedPassword)
     }
+    // Obtener el número actual de participantes
+    fetch('/api/voting-status')
+      .then(res => res.json())
+      .then(data => setParticipantCount(data.participantCount || 9))
+      .catch(error => console.error('Error:', error))
   }, [])
 
   const handleInitialAuth = async (savedPassword: string) => {
@@ -122,6 +127,31 @@ export default function AdminPage() {
     }
   }
 
+  const handleUpdateParticipants = async () => {
+    setIsSubmitting(true)
+    try {
+      const response = await fetch('/api/admin/update-participants', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ password, participantCount }),
+      })
+      
+      if (response.ok) {
+        toast.success('¡Número de participantes actualizado!')
+      } else {
+        const data = await response.json()
+        toast.error(data.error || 'Error al actualizar participantes')
+      }
+    } catch (error) {
+      console.error('Error:', error)
+      toast.error('Error al actualizar participantes')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-100">
@@ -195,6 +225,28 @@ export default function AdminPage() {
         >
           {isSubmitting ? 'Procesando...' : 'Resetejar Votacions'}
         </button>
+        <div className="space-y-2">
+          <label className="block text-sm font-medium text-gray-700">
+            Número de Participantes
+          </label>
+          <div className="flex gap-2">
+            <input
+              type="number"
+              min="1"
+              max="99"
+              value={participantCount}
+              onChange={(e) => setParticipantCount(parseInt(e.target.value))}
+              className="flex-1 rounded-md border border-gray-300 px-3 py-2"
+            />
+            <button
+              onClick={handleUpdateParticipants}
+              disabled={isSubmitting}
+              className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:opacity-50"
+            >
+              Actualizar
+            </button>
+          </div>
+        </div>
       </div>
     </main>
   )

@@ -63,11 +63,11 @@ export default function Home() {
       })
 
       if (response.ok) {
-        toast.success('¡Votos registrados con éxito!')
+        toast.success(`¡Vots registrats amb èxit! Has votat els números ${selectedVotes.join(', ')}`)
         setSelectedVotes([])
       } else {
         const data = await response.json()
-        toast.error(data.error || 'Error al registrar los votos')
+        toast.error(data.error || 'Error al registrar els vots')
       }
     } catch (error) {
       toast.error('Error al enviar los votos')
