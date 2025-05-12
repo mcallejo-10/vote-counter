@@ -57,7 +57,7 @@ export default function ResultsPage() {
           >
             <div className="flex items-center justify-between mb-2">
               <span className="text-xl text-gray-800 font-bold">Número {result.number}</span>
-              <span className="text-lg">{result.count} votos</span>
+              <span className="text-lg text-gray-800">{result.count} vots</span>
             </div>
             <div className="w-full bg-gray-200 rounded-full h-4">
               <div
