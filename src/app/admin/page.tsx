@@ -61,6 +61,35 @@ export default function AdminPage() {
     window.location.href = '/results'
   }
 
+  const handleReset = async () => {
+    if (!confirm('¿Estás seguro de que quieres resetear todas las votaciones? Esta acción no se puede deshacer.')) {
+      return
+    }
+
+    setIsSubmitting(true)
+    try {
+      const response = await fetch('/api/admin/reset-votes', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ password }),
+      })
+      
+      if (response.ok) {
+        toast.success('¡Votaciones reseteadas con éxito!')
+      } else {
+        const data = await response.json()
+        toast.error(data.error || 'Error al resetear las votaciones')
+      }
+    } catch (error) {
+      console.error('Error:', error)
+      toast.error('Error al resetear las votaciones')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-100">
@@ -125,6 +154,14 @@ export default function AdminPage() {
           className="w-full py-4 px-6 rounded-lg text-white font-bold bg-blue-500 hover:bg-blue-600 transition-all"
         >
           Ver Resultados
+        </button>
+
+        <button
+          onClick={handleReset}
+          disabled={isSubmitting}
+          className="w-full py-4 px-6 rounded-lg text-white font-bold bg-red-500 hover:bg-red-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {isSubmitting ? 'Procesando...' : 'Resetear Votaciones'}
         </button>
       </div>
     </main>
