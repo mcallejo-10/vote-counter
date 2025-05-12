@@ -16,8 +16,9 @@ model Vote {
 }
 
 model VotingStatus {
-  id        Int      @id @default(autoincrement())
-  isOpen    Boolean  @default(false)
-  password  String   // Contraseña del admin
-  updatedAt DateTime @updatedAt
+  id              Int      @id @default(1)
+  isOpen          Boolean  @default(false)
+  password        String
+  participantCount Int     @default(12)
+  updatedAt       DateTime @updatedAt
 }

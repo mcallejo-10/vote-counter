@@ -4,7 +4,10 @@ import { prisma } from '@/lib/db'
 export async function GET() {
   try {
     const votingStatus = await prisma.votingStatus.findFirst()
-    return NextResponse.json({ isOpen: votingStatus?.isOpen || false })
+    return NextResponse.json({ 
+      isOpen: votingStatus?.isOpen || false,
+      participantCount: votingStatus?.participantCount || 12
+    })
   } catch (error) {
     console.error('Error al obtener estado de votación:', error)
     return NextResponse.json(

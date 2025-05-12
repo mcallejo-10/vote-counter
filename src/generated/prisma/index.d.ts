@@ -1994,16 +1994,19 @@ export namespace Prisma {
 
   export type VotingStatusAvgAggregateOutputType = {
     id: number | null
+    participantCount: number | null
   }
 
   export type VotingStatusSumAggregateOutputType = {
     id: number | null
+    participantCount: number | null
   }
 
   export type VotingStatusMinAggregateOutputType = {
     id: number | null
     isOpen: boolean | null
     password: string | null
+    participantCount: number | null
     updatedAt: Date | null
   }
 
@@ -2011,6 +2014,7 @@ export namespace Prisma {
     id: number | null
     isOpen: boolean | null
     password: string | null
+    participantCount: number | null
     updatedAt: Date | null
   }
 
@@ -2018,6 +2022,7 @@ export namespace Prisma {
     id: number
     isOpen: number
     password: number
+    participantCount: number
     updatedAt: number
     _all: number
   }
@@ -2025,16 +2030,19 @@ export namespace Prisma {
 
   export type VotingStatusAvgAggregateInputType = {
     id?: true
+    participantCount?: true
   }
 
   export type VotingStatusSumAggregateInputType = {
     id?: true
+    participantCount?: true
   }
 
   export type VotingStatusMinAggregateInputType = {
     id?: true
     isOpen?: true
     password?: true
+    participantCount?: true
     updatedAt?: true
   }
 
@@ -2042,6 +2050,7 @@ export namespace Prisma {
     id?: true
     isOpen?: true
     password?: true
+    participantCount?: true
     updatedAt?: true
   }
 
@@ -2049,6 +2058,7 @@ export namespace Prisma {
     id?: true
     isOpen?: true
     password?: true
+    participantCount?: true
     updatedAt?: true
     _all?: true
   }
@@ -2143,6 +2153,7 @@ export namespace Prisma {
     id: number
     isOpen: boolean
     password: string
+    participantCount: number
     updatedAt: Date
     _count: VotingStatusCountAggregateOutputType | null
     _avg: VotingStatusAvgAggregateOutputType | null
@@ -2169,6 +2180,7 @@ export namespace Prisma {
     id?: boolean
     isOpen?: boolean
     password?: boolean
+    participantCount?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["votingStatus"]>
 
@@ -2176,6 +2188,7 @@ export namespace Prisma {
     id?: boolean
     isOpen?: boolean
     password?: boolean
+    participantCount?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["votingStatus"]>
 
@@ -2183,6 +2196,7 @@ export namespace Prisma {
     id?: boolean
     isOpen?: boolean
     password?: boolean
+    participantCount?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["votingStatus"]>
 
@@ -2190,10 +2204,11 @@ export namespace Prisma {
     id?: boolean
     isOpen?: boolean
     password?: boolean
+    participantCount?: boolean
     updatedAt?: boolean
   }
 
-  export type VotingStatusOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "isOpen" | "password" | "updatedAt", ExtArgs["result"]["votingStatus"]>
+  export type VotingStatusOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "isOpen" | "password" | "participantCount" | "updatedAt", ExtArgs["result"]["votingStatus"]>
 
   export type $VotingStatusPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "VotingStatus"
@@ -2202,6 +2217,7 @@ export namespace Prisma {
       id: number
       isOpen: boolean
       password: string
+      participantCount: number
       updatedAt: Date
     }, ExtArgs["result"]["votingStatus"]>
     composites: {}
@@ -2629,6 +2645,7 @@ export namespace Prisma {
     readonly id: FieldRef<"VotingStatus", 'Int'>
     readonly isOpen: FieldRef<"VotingStatus", 'Boolean'>
     readonly password: FieldRef<"VotingStatus", 'String'>
+    readonly participantCount: FieldRef<"VotingStatus", 'Int'>
     readonly updatedAt: FieldRef<"VotingStatus", 'DateTime'>
   }
     
@@ -3024,6 +3041,7 @@ export namespace Prisma {
     id: 'id',
     isOpen: 'isOpen',
     password: 'password',
+    participantCount: 'participantCount',
     updatedAt: 'updatedAt'
   };
 
@@ -3173,6 +3191,7 @@ export namespace Prisma {
     id?: IntFilter<"VotingStatus"> | number
     isOpen?: BoolFilter<"VotingStatus"> | boolean
     password?: StringFilter<"VotingStatus"> | string
+    participantCount?: IntFilter<"VotingStatus"> | number
     updatedAt?: DateTimeFilter<"VotingStatus"> | Date | string
   }
 
@@ -3180,6 +3199,7 @@ export namespace Prisma {
     id?: SortOrder
     isOpen?: SortOrder
     password?: SortOrder
+    participantCount?: SortOrder
     updatedAt?: SortOrder
   }
 
@@ -3190,6 +3210,7 @@ export namespace Prisma {
     NOT?: VotingStatusWhereInput | VotingStatusWhereInput[]
     isOpen?: BoolFilter<"VotingStatus"> | boolean
     password?: StringFilter<"VotingStatus"> | string
+    participantCount?: IntFilter<"VotingStatus"> | number
     updatedAt?: DateTimeFilter<"VotingStatus"> | Date | string
   }, "id">
 
@@ -3197,6 +3218,7 @@ export namespace Prisma {
     id?: SortOrder
     isOpen?: SortOrder
     password?: SortOrder
+    participantCount?: SortOrder
     updatedAt?: SortOrder
     _count?: VotingStatusCountOrderByAggregateInput
     _avg?: VotingStatusAvgOrderByAggregateInput
@@ -3212,6 +3234,7 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"VotingStatus"> | number
     isOpen?: BoolWithAggregatesFilter<"VotingStatus"> | boolean
     password?: StringWithAggregatesFilter<"VotingStatus"> | string
+    participantCount?: IntWithAggregatesFilter<"VotingStatus"> | number
     updatedAt?: DateTimeWithAggregatesFilter<"VotingStatus"> | Date | string
   }
 
@@ -3262,8 +3285,10 @@ export namespace Prisma {
   }
 
   export type VotingStatusCreateInput = {
+    id?: number
     isOpen?: boolean
     password: string
+    participantCount?: number
     updatedAt?: Date | string
   }
 
@@ -3271,12 +3296,15 @@ export namespace Prisma {
     id?: number
     isOpen?: boolean
     password: string
+    participantCount?: number
     updatedAt?: Date | string
   }
 
   export type VotingStatusUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
     isOpen?: BoolFieldUpdateOperationsInput | boolean
     password?: StringFieldUpdateOperationsInput | string
+    participantCount?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -3284,6 +3312,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     isOpen?: BoolFieldUpdateOperationsInput | boolean
     password?: StringFieldUpdateOperationsInput | string
+    participantCount?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -3291,12 +3320,15 @@ export namespace Prisma {
     id?: number
     isOpen?: boolean
     password: string
+    participantCount?: number
     updatedAt?: Date | string
   }
 
   export type VotingStatusUpdateManyMutationInput = {
+    id?: IntFieldUpdateOperationsInput | number
     isOpen?: BoolFieldUpdateOperationsInput | boolean
     password?: StringFieldUpdateOperationsInput | string
+    participantCount?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -3304,6 +3336,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     isOpen?: BoolFieldUpdateOperationsInput | boolean
     password?: StringFieldUpdateOperationsInput | string
+    participantCount?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -3432,17 +3465,20 @@ export namespace Prisma {
     id?: SortOrder
     isOpen?: SortOrder
     password?: SortOrder
+    participantCount?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type VotingStatusAvgOrderByAggregateInput = {
     id?: SortOrder
+    participantCount?: SortOrder
   }
 
   export type VotingStatusMaxOrderByAggregateInput = {
     id?: SortOrder
     isOpen?: SortOrder
     password?: SortOrder
+    participantCount?: SortOrder
     updatedAt?: SortOrder
   }
 
@@ -3450,11 +3486,13 @@ export namespace Prisma {
     id?: SortOrder
     isOpen?: SortOrder
     password?: SortOrder
+    participantCount?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type VotingStatusSumOrderByAggregateInput = {
     id?: SortOrder
+    participantCount?: SortOrder
   }
 
   export type BoolWithAggregatesFilter<$PrismaModel = never> = {

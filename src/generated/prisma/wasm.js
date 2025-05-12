@@ -131,6 +131,7 @@ exports.Prisma.VotingStatusScalarFieldEnum = {
   id: 'id',
   isOpen: 'isOpen',
   password: 'password',
+  participantCount: 'participantCount',
   updatedAt: 'updatedAt'
 };
 

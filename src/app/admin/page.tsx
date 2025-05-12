@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import toast from 'react-hot-toast'
 
 export default function AdminPage() {
@@ -8,7 +8,37 @@ export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [votingStatus, setVotingStatus] = useState(false)
   const [error, setError] = useState('')
-  const [isSubmitting, setIsSubmitting] = useState(false)  // Añadimos este estado
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  // Añadir efecto para verificar autenticación al cargar
+  useEffect(() => {
+    const savedPassword = localStorage.getItem('adminPassword')
+    if (savedPassword) {
+      setPassword(savedPassword)
+      handleInitialAuth(savedPassword)
+    }
+  }, [])
+
+  const handleInitialAuth = async (savedPassword: string) => {
+    try {
+      const response = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ password: savedPassword }),
+      })
+      
+      if (response.ok) {
+        setIsAuthenticated(true)
+        const status = await fetch('/api/voting-status')
+        const data = await status.json()
+        setVotingStatus(data.isOpen)
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -23,6 +53,7 @@ export default function AdminPage() {
       
       if (response.ok) {
         setIsAuthenticated(true)
+        localStorage.setItem('adminPassword', password)
         const status = await fetch('/api/voting-status')
         const data = await status.json()
         setVotingStatus(data.isOpen)

@@ -7,14 +7,15 @@ export default function Home() {
   const [selectedVotes, setSelectedVotes] = useState<number[]>([])
   const [isVotingOpen, setIsVotingOpen] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [participantCount, setParticipantCount] = useState(12)
 
-  // Verificar si las votaciones están abiertas
   useEffect(() => {
     const checkVotingStatus = async () => {
       try {
         const response = await fetch('/api/voting-status')
         const data = await response.json()
         setIsVotingOpen(data.isOpen)
+        setParticipantCount(data.participantCount)
       } catch (error) {
         console.error('Error al verificar estado de votación:', error)
       }
@@ -101,7 +102,7 @@ export default function Home() {
         </p>
 
         <div className="grid grid-cols-3 gap-4 mb-6">
-          {[...Array(12)].map((_, i) => (
+          {[...Array(participantCount)].map((_, i) => (
             <button
               key={i + 1}
               onClick={() => handleVoteSelect(i + 1)}

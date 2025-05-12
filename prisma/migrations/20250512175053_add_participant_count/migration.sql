@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "VotingStatus" ADD COLUMN     "participantCount" INTEGER NOT NULL DEFAULT 12,
+ALTER COLUMN "id" SET DEFAULT 1,
+ALTER COLUMN "id" DROP DEFAULT;
+DROP SEQUENCE "VotingStatus_id_seq";
