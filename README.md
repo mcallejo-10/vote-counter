@@ -1,6 +1,8 @@
 # Vote Counter - Aplicación de Votación para Talent Show
 ## 📝 Descripción
-Vote Counter es mi primera aplicación desarrollada con React y Next.js, creada con la asistencia de una IA. Esta aplicación web permite gestionar votaciones en directo para un espectáculo de talento, donde los espectadores pueden votar por sus 3 participantes favoritos, mientras que los administradores pueden gestionar el estado de las votaciones y ver los resultados en tiempo real.
+Vote Counter es mi primera aplicación desarrollada con React y Next.js, creada con la asistencia de una IA. Esta aplicación web permite gestionar votaciones en directo para un espectáculo de talento, donde los espectadores pueden votar por sus 3 participantes favoritos, mientras que los administradores pueden gestionar el estado de las votaciones y ver los resultados en tiempo real. 
+
+Puedes acceder a las votacioes aquí 🌐 https://vote-counter-livid.vercel.app
 
 ## ✨ Características
 - Sistema de votación en tiempo real
