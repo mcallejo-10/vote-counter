@@ -94,7 +94,7 @@ export default function Home() {
       
       <div className="mb-6">
         <p className="text-center text-xl mb-4">
-          Selecciona els 3 números <br /> que más than agradat 
+          Selecciona els 3 números <br /> que més t'han agradat 
           <br />
           <span className="text-sm text-gray-600">
             ({3 - selectedVotes.length} números pendents de seleccionar)
