@@ -10,6 +10,7 @@ export default function AdminPage() {
   const [error, setError] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [participantCount, setParticipantCount] = useState(12)
+  const [confirmReset, setConfirmReset] = useState(false)
 
   useEffect(() => {
     const savedPassword = localStorage.getItem('adminPassword')
@@ -98,11 +99,13 @@ export default function AdminPage() {
     window.location.href = '/results'
   }
 
-  const handleReset = async () => {
-    if (!confirm('¿Estás seguro de que quieres resetear todas las votaciones? Esta acción no se puede deshacer.')) {
-      return
-    }
+  const handleLogout = () => {
+    localStorage.removeItem('adminPassword')
+    setIsAuthenticated(false)
+    setPassword('')
+  }
 
+  const handleReset = async () => {
     setIsSubmitting(true)
     try {
       const response = await fetch('/api/admin/reset-votes', {
@@ -185,36 +188,33 @@ export default function AdminPage() {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-100">
-        <div className="max-w-md w-full space-y-8 p-8 bg-white rounded-lg shadow">
-          <h2 className="text-center text-3xl font-extrabold text-gray-900">
-            Panell d'Administració
-          </h2>
-          <form onSubmit={handleLogin} className="mt-8 space-y-6">
-            <input type="hidden" name="remember" defaultValue="true" />
-            <div>
-              <label htmlFor="password" className="sr-only">
-                Contraseña
-              </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                required
-                className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Contraseña"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
+        <div className="w-full max-w-sm bg-white rounded-2xl shadow-lg p-8">
+          <div className="text-center mb-8">
+            <div className="text-5xl mb-3">🔐</div>
+            <h2 className="text-2xl font-bold text-gray-900">Panell Admin</h2>
+            <p className="text-gray-500 text-sm mt-1">Talent Xou</p>
+          </div>
+          <form onSubmit={handleLogin} className="space-y-4">
+            <input
+              id="password"
+              name="password"
+              type="password"
+              required
+              autoComplete="current-password"
+              className="w-full px-4 py-3 text-base border-2 border-gray-200 rounded-xl focus:outline-none focus:border-indigo-500 text-gray-900"
+              placeholder="Contrasenya"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
             {error && (
               <div className="text-red-500 text-sm text-center">{error}</div>
             )}
             <button
               type="submit"
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="w-full py-3 px-4 text-base font-bold rounded-xl text-white bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 transition-all"
             >
-              Iniciar sesión
+              Entrar
             </button>
           </form>
         </div>
@@ -223,51 +223,63 @@ export default function AdminPage() {
   }
 
   return (
-    <main className="min-h-screen p-4 max-w-md mx-auto">
-      <h1 className="text-2xl font-bold text-center mb-8">Panel de Administración</h1>
-      
-      <div className="space-y-4">
+    <main className="min-h-screen bg-gray-50 p-4 pb-10">
+      <div className="max-w-sm mx-auto space-y-5">
+
+        {/* Header */}
+        <div className="flex items-center justify-between pt-2">
+          <h1 className="text-xl font-bold text-gray-900">Panell Admin</h1>
+          <button
+            onClick={handleLogout}
+            className="text-sm text-gray-400 hover:text-gray-600 underline"
+          >
+            Tancar sessió
+          </button>
+        </div>
+
+        {/* Estat actual */}
+        <div className={`rounded-2xl p-5 text-center ${
+          votingStatus ? 'bg-green-100 border-2 border-green-400' : 'bg-gray-100 border-2 border-gray-300'
+        }`}>
+          <div className="text-4xl mb-1">{votingStatus ? '🟢' : '⚫'}</div>
+          <p className="text-lg font-bold text-gray-800">
+            {votingStatus ? 'Votacions obertes' : 'Votacions tancades'}
+          </p>
+        </div>
+
+        {/* Acció principal */}
         <button
           onClick={handleToggleVoting}
           disabled={isSubmitting}
-          className={`
-            w-full py-4 px-6
-            rounded-lg
-            text-white font-bold
-            transition-all
-            ${votingStatus ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600'}
-            ${isSubmitting ? 'opacity-50 cursor-wait' : ''}
-          `}
+          className={`w-full py-5 px-6 rounded-2xl text-white text-lg font-bold shadow-md transition-all active:scale-95 disabled:opacity-50 ${
+            votingStatus
+              ? 'bg-red-500 hover:bg-red-600'
+              : 'bg-green-500 hover:bg-green-600'
+          }`}
         >
-          {isSubmitting ? 'Procesando...' : votingStatus ? 'Tancar Votacions' : 'Obrir Votacions'}
+          {isSubmitting ? 'Processant...' : votingStatus ? '⏹ Tancar Votacions' : '▶ Obrir Votacions'}
         </button>
 
-        <button
-          onClick={handleViewResults}
-          className="w-full py-4 px-6 rounded-lg text-white font-bold bg-blue-500 hover:bg-blue-600 transition-all"
-        >
-          Veure Resultats
-        </button>
+        {/* Accions secundàries */}
+        <div className="grid grid-cols-2 gap-3">
+          <button
+            onClick={handleViewResults}
+            className="py-4 px-3 rounded-2xl text-white font-bold bg-blue-500 hover:bg-blue-600 active:scale-95 transition-all text-sm"
+          >
+            📊 Veure Resultats
+          </button>
+          <button
+            onClick={handleExportCSV}
+            disabled={isSubmitting}
+            className="py-4 px-3 rounded-2xl text-white font-bold bg-emerald-600 hover:bg-emerald-700 active:scale-95 transition-all disabled:opacity-50 text-sm"
+          >
+            ⬇️ Descarregar CSV
+          </button>
+        </div>
 
-        <button
-          onClick={handleReset}
-          disabled={isSubmitting}
-          className="w-full py-4 px-6 rounded-lg text-white font-bold bg-red-500 hover:bg-red-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {isSubmitting ? 'Procesando...' : 'Resetejar Votacions'}
-        </button>
-
-        <button
-          onClick={handleExportCSV}
-          disabled={isSubmitting}
-          className="w-full py-4 px-6 rounded-lg text-white font-bold bg-emerald-600 hover:bg-emerald-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {isSubmitting ? 'Processant...' : '⬇️ Descarregar Resultats (CSV)'}
-        </button>
-        <div className="space-y-2">
-          <label className="block text-sm font-medium text-gray-700">
-            Número de Participants
-          </label>
+        {/* Configuració participants */}
+        <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
+          <p className="text-sm font-semibold text-gray-600 mb-3">Número de participants</p>
           <div className="flex gap-2">
             <input
               type="number"
@@ -275,17 +287,51 @@ export default function AdminPage() {
               max="99"
               value={participantCount}
               onChange={(e) => setParticipantCount(parseInt(e.target.value))}
-              className="flex-1 rounded-md border border-gray-300 px-3 py-2"
+              className="flex-1 rounded-xl border-2 border-gray-200 px-4 py-3 text-base focus:outline-none focus:border-indigo-500"
             />
             <button
               onClick={handleUpdateParticipants}
               disabled={isSubmitting}
-              className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:opacity-50"
+              className="px-5 py-3 bg-indigo-500 text-white font-bold rounded-xl hover:bg-indigo-600 disabled:opacity-50 text-sm"
             >
-              Actualitzar
+              Guardar
             </button>
           </div>
         </div>
+
+        {/* Zona de perill */}
+        <div className="bg-red-50 rounded-2xl p-5 border-2 border-red-200">
+          <p className="text-sm font-semibold text-red-600 mb-3">⚠️ Zona de perill</p>
+          {!confirmReset ? (
+            <button
+              onClick={() => setConfirmReset(true)}
+              disabled={isSubmitting}
+              className="w-full py-4 px-6 rounded-xl text-red-600 font-bold border-2 border-red-400 hover:bg-red-100 active:scale-95 transition-all disabled:opacity-50"
+            >
+              Resetejar totes les votacions
+            </button>
+          ) : (
+            <div className="space-y-2">
+              <p className="text-sm text-red-700 font-medium text-center">Segur? Això no es pot desfer.</p>
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  onClick={() => setConfirmReset(false)}
+                  className="py-3 rounded-xl font-bold text-gray-600 bg-white border-2 border-gray-300 hover:bg-gray-50"
+                >
+                  Cancel·lar
+                </button>
+                <button
+                  onClick={() => { setConfirmReset(false); handleReset() }}
+                  disabled={isSubmitting}
+                  className="py-3 rounded-xl font-bold text-white bg-red-500 hover:bg-red-600 disabled:opacity-50"
+                >
+                  {isSubmitting ? '...' : 'Sí, resetejar'}
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+
       </div>
     </main>
   )
