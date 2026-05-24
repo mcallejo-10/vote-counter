@@ -1,0 +1,45 @@
+import { NextResponse } from 'next/server'
+import { prisma } from '@/lib/db'
+
+export async function POST(request: Request) {
+  try {
+    const { password } = await request.json()
+
+    const adminPassword = process.env.ADMIN_PASSWORD
+    if (!adminPassword) {
+      return NextResponse.json({ error: 'Error de configuració del servidor' }, { status: 500 })
+    }
+
+    if (password !== adminPassword) {
+      return NextResponse.json({ error: 'Contrasenya incorrecta' }, { status: 401 })
+    }
+
+    const votingStatus = await prisma.votingStatus.findFirst()
+    const participantCount = votingStatus?.participantCount ?? 12
+
+    const voteCounts = await prisma.vote.groupBy({
+      by: ['number'],
+      _count: { number: true },
+    })
+
+    const countsMap = new Map(voteCounts.map(v => [v.number, v._count.number]))
+
+    const rows: { participant: number; votes: number }[] = []
+    for (let i = 1; i <= participantCount; i++) {
+      rows.push({ participant: i, votes: countsMap.get(i) ?? 0 })
+    }
+    rows.sort((a, b) => b.votes - a.votes)
+
+    const csv = ['Participant,Vots', ...rows.map(r => `${r.participant},${r.votes}`)].join('\n')
+
+    return new Response(csv, {
+      headers: {
+        'Content-Type': 'text/csv; charset=utf-8',
+        'Content-Disposition': 'attachment; filename="resultats-votacio.csv"',
+      },
+    })
+  } catch (error) {
+    console.error('Error exportant CSV:', error)
+    return NextResponse.json({ error: 'Error del servidor' }, { status: 500 })
+  }
+}

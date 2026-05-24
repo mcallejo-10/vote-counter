@@ -127,6 +127,37 @@ export default function AdminPage() {
     }
   }
 
+  const handleExportCSV = async () => {
+    setIsSubmitting(true)
+    try {
+      const response = await fetch('/api/admin/export-csv', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password }),
+      })
+
+      if (!response.ok) {
+        const data = await response.json()
+        toast.error(data.error || 'Error en descarregar el CSV')
+        return
+      }
+
+      const blob = await response.blob()
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = 'resultats-votacio.csv'
+      a.click()
+      URL.revokeObjectURL(url)
+      toast.success('CSV descarregat!')
+    } catch (error) {
+      console.error('Error:', error)
+      toast.error('Error en descarregar el CSV')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
   const handleUpdateParticipants = async () => {
     setIsSubmitting(true)
     try {
@@ -224,6 +255,14 @@ export default function AdminPage() {
           className="w-full py-4 px-6 rounded-lg text-white font-bold bg-red-500 hover:bg-red-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isSubmitting ? 'Procesando...' : 'Resetejar Votacions'}
+        </button>
+
+        <button
+          onClick={handleExportCSV}
+          disabled={isSubmitting}
+          className="w-full py-4 px-6 rounded-lg text-white font-bold bg-emerald-600 hover:bg-emerald-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {isSubmitting ? 'Processant...' : '⬇️ Descarregar Resultats (CSV)'}
         </button>
         <div className="space-y-2">
           <label className="block text-sm font-medium text-gray-700">
