@@ -120,7 +120,7 @@ export default function Home() {
                 onClick={() => handleVoteSelect(num)}
                 disabled={selectedVotes.length >= 3 && !selectedVotes.includes(num)}
                 className={`
-                  min-h-16 flex flex-col items-center justify-center gap-0.5 py-2 px-1
+                  min-h-20 flex flex-col items-center justify-center gap-1 py-3 px-1
                   rounded-lg
                   transition-all
                   transform hover:scale-105
@@ -131,9 +131,9 @@ export default function Home() {
                   }
                 `}
               >
-                <span className="text-3xl font-bold leading-none">{num}</span>
+                <span className="text-2xl font-bold leading-none">{num}</span>
                 {name && (
-                  <span className="text-[10px] leading-tight text-center w-full truncate px-1">{name}</span>
+                  <span className="text-xs leading-tight text-center w-full break-words px-1 line-clamp-2">{name}</span>
                 )}
               </button>
             )
