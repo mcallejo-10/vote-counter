@@ -13,6 +13,7 @@ export default function Home() {
   const [hasVoted, setHasVoted] = useState(false)
   const [votedNumbers, setVotedNumbers] = useState<number[]>([])
   const [isReturning, setIsReturning] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     const init = async () => {
@@ -32,6 +33,8 @@ export default function Home() {
         setNameMap(map)
       } catch (error) {
         console.error('Error al verificar estado de votación:', error)
+      } finally {
+        setIsLoading(false)
       }
     }
     init()
@@ -88,6 +91,16 @@ export default function Home() {
     } finally {
       setIsSubmitting(false)
     }
+  }
+
+  if (isLoading) {
+    return (
+      <main className="min-h-screen flex items-center justify-center" style={{ background: '#E8178A' }}>
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin" />
+        </div>
+      </main>
+    )
   }
 
   if (hasVoted) {
