@@ -19,9 +19,13 @@ export async function GET() {
       }
     })
 
+    const participants = await prisma.participant.findMany()
+    const nameMap = new Map(participants.map(p => [p.number, p.name]))
+
     // Formatear los resultados
     const results = voteCounts.map(count => ({
       number: count.number,
+      name: nameMap.get(count.number) || null,
       count: count._count.number
     }))
 

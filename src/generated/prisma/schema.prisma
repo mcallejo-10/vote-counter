@@ -8,6 +8,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Participant {
+  id     Int    @id @default(autoincrement())
+  number Int    @unique
+  name   String @default("")
+}
+
 model Vote {
   id        Int      @id @default(autoincrement())
   number    Int // Número del concursante

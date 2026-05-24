@@ -11,6 +11,8 @@ export default function AdminPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [participantCount, setParticipantCount] = useState(12)
   const [confirmReset, setConfirmReset] = useState(false)
+  const [showNames, setShowNames] = useState(false)
+  const [participantNames, setParticipantNames] = useState<Record<number, string>>({})
 
   useEffect(() => {
     const savedPassword = localStorage.getItem('adminPassword')
@@ -18,11 +20,18 @@ export default function AdminPage() {
       setPassword(savedPassword)
       handleInitialAuth(savedPassword)
     }
-    // Obtener el número actual de participantes
     fetch('/api/voting-status')
       .then(res => res.json())
       .then(data => setParticipantCount(data.participantCount || 9))
       .catch(error => console.error('Error:', error))
+    fetch('/api/participants')
+      .then(res => res.json())
+      .then(data => {
+        const map: Record<number, string> = {}
+        for (const p of data.participants ?? []) map[p.number] = p.name
+        setParticipantNames(map)
+      })
+      .catch(error => console.error('Error carregant noms:', error))
   }, [])
 
   const handleInitialAuth = async (savedPassword: string) => {
@@ -97,6 +106,33 @@ export default function AdminPage() {
 
   const handleViewResults = () => {
     window.location.href = '/results'
+  }
+
+  const handleSaveNames = async () => {
+    setIsSubmitting(true)
+    try {
+      const participants = Object.entries(participantNames).map(([number, name]) => ({
+        number: parseInt(number),
+        name,
+      }))
+      const response = await fetch('/api/admin/update-participant-names', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password, participants }),
+      })
+      if (response.ok) {
+        toast.success('Noms desats!')
+        setShowNames(false)
+      } else {
+        const data = await response.json()
+        toast.error(data.error || 'Error desant els noms')
+      }
+    } catch (error) {
+      console.error('Error:', error)
+      toast.error('Error desant els noms')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const handleLogout = () => {
@@ -297,6 +333,44 @@ export default function AdminPage() {
               Guardar
             </button>
           </div>
+        </div>
+
+        {/* Noms dels participants */}
+        <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
+          <div className="flex items-center justify-between mb-1">
+            <p className="text-sm font-semibold text-gray-600">Noms dels participants</p>
+            <button
+              onClick={() => setShowNames(!showNames)}
+              className="text-sm text-indigo-500 hover:text-indigo-700"
+            >
+              {showNames ? 'Amagar' : '✏️ Editar'}
+            </button>
+          </div>
+          {showNames && (
+            <div className="mt-3 space-y-2">
+              <div className="max-h-64 overflow-y-auto space-y-2 pr-1">
+                {Array.from({ length: participantCount }, (_, i) => i + 1).map(num => (
+                  <div key={num} className="flex items-center gap-2">
+                    <span className="w-7 text-sm font-bold text-gray-400 shrink-0">#{num}</span>
+                    <input
+                      type="text"
+                      value={participantNames[num] ?? ''}
+                      onChange={(e) => setParticipantNames(prev => ({ ...prev, [num]: e.target.value }))}
+                      placeholder="Nom (opcional)"
+                      className="flex-1 rounded-lg border border-gray-200 px-3 py-2 text-sm text-black focus:outline-none focus:border-indigo-400"
+                    />
+                  </div>
+                ))}
+              </div>
+              <button
+                onClick={handleSaveNames}
+                disabled={isSubmitting}
+                className="w-full py-3 rounded-xl font-bold text-white bg-indigo-500 hover:bg-indigo-600 disabled:opacity-50 mt-1"
+              >
+                {isSubmitting ? 'Desant...' : 'Desar noms'}
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Zona de perill */}

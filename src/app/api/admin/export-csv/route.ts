@@ -23,10 +23,12 @@ export async function POST(request: Request) {
     })
 
     const countsMap = new Map(voteCounts.map(v => [v.number, v._count.number]))
+    const participants = await prisma.participant.findMany()
+    const nameMap = new Map(participants.map(p => [p.number, p.name]))
 
-    const rows: { participant: number; votes: number }[] = []
+    const rows: { participant: number; name: string; votes: number }[] = []
     for (let i = 1; i <= participantCount; i++) {
-      rows.push({ participant: i, votes: countsMap.get(i) ?? 0 })
+      rows.push({ participant: i, name: nameMap.get(i) || '', votes: countsMap.get(i) ?? 0 })
     }
     rows.sort((a, b) => b.votes - a.votes)
 
@@ -35,7 +37,7 @@ export async function POST(request: Request) {
       ? `Darrer tancament:,${new Date(lastClosedAt).toLocaleString('ca-ES', { timeZone: 'Europe/Madrid' })}`
       : 'Darrer tancament:,No disponible'
 
-    const csv = [dateLabel, '', 'Participant,Vots', ...rows.map(r => `${r.participant},${r.votes}`)].join('\n')
+    const csv = [dateLabel, '', 'Nº,Nom,Vots', ...rows.map(r => `${r.participant},${r.name},${r.votes}`)].join('\n')
 
     return new Response(csv, {
       headers: {

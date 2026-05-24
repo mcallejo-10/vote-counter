@@ -8,19 +8,28 @@ export default function Home() {
   const [isVotingOpen, setIsVotingOpen] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [participantCount, setParticipantCount] = useState(12)
+  const [nameMap, setNameMap] = useState<Map<number, string>>(new Map())
 
   useEffect(() => {
-    const checkVotingStatus = async () => {
+    const init = async () => {
       try {
-        const response = await fetch('/api/voting-status')
-        const data = await response.json()
-        setIsVotingOpen(data.isOpen)
-        setParticipantCount(data.participantCount)
+        const [statusRes, participantsRes] = await Promise.all([
+          fetch('/api/voting-status'),
+          fetch('/api/participants'),
+        ])
+        const statusData = await statusRes.json()
+        const participantsData = await participantsRes.json()
+        setIsVotingOpen(statusData.isOpen)
+        setParticipantCount(statusData.participantCount)
+        const map = new Map<number, string>(
+          (participantsData.participants ?? []).map((p: { number: number; name: string }) => [p.number, p.name])
+        )
+        setNameMap(map)
       } catch (error) {
         console.error('Error al verificar estado de votación:', error)
       }
     }
-    checkVotingStatus()
+    init()
   }, [])
 
   const handleVoteSelect = (number: number) => {
@@ -102,27 +111,33 @@ export default function Home() {
         </p>
 
         <div className="grid grid-cols-3 gap-4 mb-6">
-          {[...Array(participantCount)].map((_, i) => (
-            <button
-              key={i + 1}
-              onClick={() => handleVoteSelect(i + 1)}
-              disabled={selectedVotes.length >= 3 && !selectedVotes.includes(i + 1)}
-              className={`
-                aspect-square
-                text-3xl font-bold
-                rounded-lg
-                transition-all
-                transform hover:scale-105
-                disabled:opacity-50 disabled:cursor-not-allowed
-                ${selectedVotes.includes(i + 1)
-                  ? 'bg-green-800 text-yellow-400 shadow-lg'
-                  : 'bg-white border-4 border-gray-200 text-gray-500 hover:border-blue-500'
-                }
-              `}
-            >
-              {i + 1}
-            </button>
-          ))}
+          {[...Array(participantCount)].map((_, i) => {
+            const num = i + 1
+            const name = nameMap.get(num)
+            return (
+              <button
+                key={num}
+                onClick={() => handleVoteSelect(num)}
+                disabled={selectedVotes.length >= 3 && !selectedVotes.includes(num)}
+                className={`
+                  min-h-16 flex flex-col items-center justify-center gap-0.5 py-2 px-1
+                  rounded-lg
+                  transition-all
+                  transform hover:scale-105
+                  disabled:opacity-50 disabled:cursor-not-allowed
+                  ${selectedVotes.includes(num)
+                    ? 'bg-green-800 text-yellow-400 shadow-lg'
+                    : 'bg-white border-4 border-gray-200 text-gray-500 hover:border-blue-500'
+                  }
+                `}
+              >
+                <span className="text-3xl font-bold leading-none">{num}</span>
+                {name && (
+                  <span className="text-[10px] leading-tight text-center w-full truncate px-1">{name}</span>
+                )}
+              </button>
+            )
+          })}
         </div>
 
         <button

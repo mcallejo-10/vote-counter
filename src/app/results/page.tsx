@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 
 interface VoteCount {
   number: number
+  name: string | null
   count: number
 }
 
@@ -113,8 +114,14 @@ export default function ResultsPage() {
               >
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
-                    <span className="text-2xl">{MEDALS[index] ?? `#${index + 1}`}</span>
-                    <span className="text-lg font-bold text-gray-800">Número {result.number}</span>
+                    <span className="text-2xl text-gray-600">{MEDALS[index] ?? `#${index + 1}`}</span>
+                    <div>
+                      {result.name
+                        ? <span className="text-lg font-bold text-gray-800">{result.name}</span>
+                        : <span className="text-lg font-bold text-gray-800">Número {result.number}</span>
+                      }
+                      {result.name && <span className="block text-xs text-gray-400">Nº {result.number}</span>}
+                    </div>
                   </div>
                   <span className="text-base font-semibold text-gray-600">{result.count} vots</span>
                 </div>

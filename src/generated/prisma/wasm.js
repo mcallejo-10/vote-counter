@@ -120,6 +120,12 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
+exports.Prisma.ParticipantScalarFieldEnum = {
+  id: 'id',
+  number: 'number',
+  name: 'name'
+};
+
 exports.Prisma.VoteScalarFieldEnum = {
   id: 'id',
   number: 'number',
@@ -153,6 +159,7 @@ exports.Prisma.NullsOrder = {
 
 
 exports.Prisma.ModelName = {
+  Participant: 'Participant',
   Vote: 'Vote',
   VotingStatus: 'VotingStatus'
 };
