@@ -30,7 +30,12 @@ export async function POST(request: Request) {
     }
     rows.sort((a, b) => b.votes - a.votes)
 
-    const csv = ['Participant,Vots', ...rows.map(r => `${r.participant},${r.votes}`)].join('\n')
+    const lastClosedAt = votingStatus?.lastClosedAt
+    const dateLabel = lastClosedAt
+      ? `Darrer tancament:,${new Date(lastClosedAt).toLocaleString('ca-ES', { timeZone: 'Europe/Madrid' })}`
+      : 'Darrer tancament:,No disponible'
+
+    const csv = [dateLabel, '', 'Participant,Vots', ...rows.map(r => `${r.participant},${r.votes}`)].join('\n')
 
     return new Response(csv, {
       headers: {

@@ -132,7 +132,8 @@ exports.Prisma.VotingStatusScalarFieldEnum = {
   isOpen: 'isOpen',
   password: 'password',
   participantCount: 'participantCount',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  lastClosedAt: 'lastClosedAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -143,6 +144,11 @@ exports.Prisma.SortOrder = {
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
+};
+
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
 };
 
 

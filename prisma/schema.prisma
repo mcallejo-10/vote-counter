@@ -16,9 +16,10 @@ model Vote {
 }
 
 model VotingStatus {
-  id              Int      @id @default(1)
-  isOpen          Boolean  @default(false)
+  id              Int       @id @default(1)
+  isOpen          Boolean   @default(false)
   password        String
-  participantCount Int     @default(12)
-  updatedAt       DateTime @updatedAt
+  participantCount Int      @default(12)
+  updatedAt       DateTime  @updatedAt
+  lastClosedAt    DateTime?
 }

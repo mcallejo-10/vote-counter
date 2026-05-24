@@ -22,9 +22,14 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Estado de votación no encontrado' }, { status: 500 })
     }
 
+    const isClosing = currentStatus.isOpen
+
     const newStatus = await prisma.votingStatus.update({
       where: { id: currentStatus.id },
-      data: { isOpen: !currentStatus.isOpen },
+      data: {
+        isOpen: !currentStatus.isOpen,
+        ...(isClosing ? { lastClosedAt: new Date() } : {}),
+      },
     })
 
     return NextResponse.json({ isOpen: newStatus.isOpen })

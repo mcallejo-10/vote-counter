@@ -3,10 +3,12 @@ import { prisma } from '@/lib/db'
 
 export async function GET() {
   try {
+    const votingStatus = await prisma.votingStatus.findFirst()
+
     // Verificar si hay votos
     const votesExist = await prisma.vote.findFirst()
     if (!votesExist) {
-      return NextResponse.json({ results: [] })
+      return NextResponse.json({ results: [], lastClosedAt: votingStatus?.lastClosedAt ?? null })
     }
 
     // Obtener el conteo de votos por número
@@ -26,7 +28,7 @@ export async function GET() {
     // Ordenar por número de votos (descendente)
     results.sort((a, b) => b.count - a.count)
 
-    return NextResponse.json({ results })
+    return NextResponse.json({ results, lastClosedAt: votingStatus?.lastClosedAt ?? null })
   } catch (error) {
     console.error('Error al obtener resultados:', error)
     return NextResponse.json(

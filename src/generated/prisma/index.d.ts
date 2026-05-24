@@ -2008,6 +2008,7 @@ export namespace Prisma {
     password: string | null
     participantCount: number | null
     updatedAt: Date | null
+    lastClosedAt: Date | null
   }
 
   export type VotingStatusMaxAggregateOutputType = {
@@ -2016,6 +2017,7 @@ export namespace Prisma {
     password: string | null
     participantCount: number | null
     updatedAt: Date | null
+    lastClosedAt: Date | null
   }
 
   export type VotingStatusCountAggregateOutputType = {
@@ -2024,6 +2026,7 @@ export namespace Prisma {
     password: number
     participantCount: number
     updatedAt: number
+    lastClosedAt: number
     _all: number
   }
 
@@ -2044,6 +2047,7 @@ export namespace Prisma {
     password?: true
     participantCount?: true
     updatedAt?: true
+    lastClosedAt?: true
   }
 
   export type VotingStatusMaxAggregateInputType = {
@@ -2052,6 +2056,7 @@ export namespace Prisma {
     password?: true
     participantCount?: true
     updatedAt?: true
+    lastClosedAt?: true
   }
 
   export type VotingStatusCountAggregateInputType = {
@@ -2060,6 +2065,7 @@ export namespace Prisma {
     password?: true
     participantCount?: true
     updatedAt?: true
+    lastClosedAt?: true
     _all?: true
   }
 
@@ -2155,6 +2161,7 @@ export namespace Prisma {
     password: string
     participantCount: number
     updatedAt: Date
+    lastClosedAt: Date | null
     _count: VotingStatusCountAggregateOutputType | null
     _avg: VotingStatusAvgAggregateOutputType | null
     _sum: VotingStatusSumAggregateOutputType | null
@@ -2182,6 +2189,7 @@ export namespace Prisma {
     password?: boolean
     participantCount?: boolean
     updatedAt?: boolean
+    lastClosedAt?: boolean
   }, ExtArgs["result"]["votingStatus"]>
 
   export type VotingStatusSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -2190,6 +2198,7 @@ export namespace Prisma {
     password?: boolean
     participantCount?: boolean
     updatedAt?: boolean
+    lastClosedAt?: boolean
   }, ExtArgs["result"]["votingStatus"]>
 
   export type VotingStatusSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -2198,6 +2207,7 @@ export namespace Prisma {
     password?: boolean
     participantCount?: boolean
     updatedAt?: boolean
+    lastClosedAt?: boolean
   }, ExtArgs["result"]["votingStatus"]>
 
   export type VotingStatusSelectScalar = {
@@ -2206,9 +2216,10 @@ export namespace Prisma {
     password?: boolean
     participantCount?: boolean
     updatedAt?: boolean
+    lastClosedAt?: boolean
   }
 
-  export type VotingStatusOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "isOpen" | "password" | "participantCount" | "updatedAt", ExtArgs["result"]["votingStatus"]>
+  export type VotingStatusOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "isOpen" | "password" | "participantCount" | "updatedAt" | "lastClosedAt", ExtArgs["result"]["votingStatus"]>
 
   export type $VotingStatusPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "VotingStatus"
@@ -2219,6 +2230,7 @@ export namespace Prisma {
       password: string
       participantCount: number
       updatedAt: Date
+      lastClosedAt: Date | null
     }, ExtArgs["result"]["votingStatus"]>
     composites: {}
   }
@@ -2647,6 +2659,7 @@ export namespace Prisma {
     readonly password: FieldRef<"VotingStatus", 'String'>
     readonly participantCount: FieldRef<"VotingStatus", 'Int'>
     readonly updatedAt: FieldRef<"VotingStatus", 'DateTime'>
+    readonly lastClosedAt: FieldRef<"VotingStatus", 'DateTime'>
   }
     
 
@@ -3042,7 +3055,8 @@ export namespace Prisma {
     isOpen: 'isOpen',
     password: 'password',
     participantCount: 'participantCount',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    lastClosedAt: 'lastClosedAt'
   };
 
   export type VotingStatusScalarFieldEnum = (typeof VotingStatusScalarFieldEnum)[keyof typeof VotingStatusScalarFieldEnum]
@@ -3062,6 +3076,14 @@ export namespace Prisma {
   };
 
   export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+  export const NullsOrder: {
+    first: 'first',
+    last: 'last'
+  };
+
+  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
   /**
@@ -3193,6 +3215,7 @@ export namespace Prisma {
     password?: StringFilter<"VotingStatus"> | string
     participantCount?: IntFilter<"VotingStatus"> | number
     updatedAt?: DateTimeFilter<"VotingStatus"> | Date | string
+    lastClosedAt?: DateTimeNullableFilter<"VotingStatus"> | Date | string | null
   }
 
   export type VotingStatusOrderByWithRelationInput = {
@@ -3201,6 +3224,7 @@ export namespace Prisma {
     password?: SortOrder
     participantCount?: SortOrder
     updatedAt?: SortOrder
+    lastClosedAt?: SortOrderInput | SortOrder
   }
 
   export type VotingStatusWhereUniqueInput = Prisma.AtLeast<{
@@ -3212,6 +3236,7 @@ export namespace Prisma {
     password?: StringFilter<"VotingStatus"> | string
     participantCount?: IntFilter<"VotingStatus"> | number
     updatedAt?: DateTimeFilter<"VotingStatus"> | Date | string
+    lastClosedAt?: DateTimeNullableFilter<"VotingStatus"> | Date | string | null
   }, "id">
 
   export type VotingStatusOrderByWithAggregationInput = {
@@ -3220,6 +3245,7 @@ export namespace Prisma {
     password?: SortOrder
     participantCount?: SortOrder
     updatedAt?: SortOrder
+    lastClosedAt?: SortOrderInput | SortOrder
     _count?: VotingStatusCountOrderByAggregateInput
     _avg?: VotingStatusAvgOrderByAggregateInput
     _max?: VotingStatusMaxOrderByAggregateInput
@@ -3236,6 +3262,7 @@ export namespace Prisma {
     password?: StringWithAggregatesFilter<"VotingStatus"> | string
     participantCount?: IntWithAggregatesFilter<"VotingStatus"> | number
     updatedAt?: DateTimeWithAggregatesFilter<"VotingStatus"> | Date | string
+    lastClosedAt?: DateTimeNullableWithAggregatesFilter<"VotingStatus"> | Date | string | null
   }
 
   export type VoteCreateInput = {
@@ -3290,6 +3317,7 @@ export namespace Prisma {
     password: string
     participantCount?: number
     updatedAt?: Date | string
+    lastClosedAt?: Date | string | null
   }
 
   export type VotingStatusUncheckedCreateInput = {
@@ -3298,6 +3326,7 @@ export namespace Prisma {
     password: string
     participantCount?: number
     updatedAt?: Date | string
+    lastClosedAt?: Date | string | null
   }
 
   export type VotingStatusUpdateInput = {
@@ -3306,6 +3335,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     participantCount?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastClosedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type VotingStatusUncheckedUpdateInput = {
@@ -3314,6 +3344,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     participantCount?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastClosedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type VotingStatusCreateManyInput = {
@@ -3322,6 +3353,7 @@ export namespace Prisma {
     password: string
     participantCount?: number
     updatedAt?: Date | string
+    lastClosedAt?: Date | string | null
   }
 
   export type VotingStatusUpdateManyMutationInput = {
@@ -3330,6 +3362,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     participantCount?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastClosedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type VotingStatusUncheckedUpdateManyInput = {
@@ -3338,6 +3371,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     participantCount?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastClosedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -3461,12 +3495,29 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
+  }
+
   export type VotingStatusCountOrderByAggregateInput = {
     id?: SortOrder
     isOpen?: SortOrder
     password?: SortOrder
     participantCount?: SortOrder
     updatedAt?: SortOrder
+    lastClosedAt?: SortOrder
   }
 
   export type VotingStatusAvgOrderByAggregateInput = {
@@ -3480,6 +3531,7 @@ export namespace Prisma {
     password?: SortOrder
     participantCount?: SortOrder
     updatedAt?: SortOrder
+    lastClosedAt?: SortOrder
   }
 
   export type VotingStatusMinOrderByAggregateInput = {
@@ -3488,6 +3540,7 @@ export namespace Prisma {
     password?: SortOrder
     participantCount?: SortOrder
     updatedAt?: SortOrder
+    lastClosedAt?: SortOrder
   }
 
   export type VotingStatusSumOrderByAggregateInput = {
@@ -3501,6 +3554,20 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type IntFieldUpdateOperationsInput = {
@@ -3521,6 +3588,10 @@ export namespace Prisma {
 
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -3622,12 +3693,48 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
 

@@ -287,7 +287,7 @@ export default function AdminPage() {
               max="99"
               value={participantCount}
               onChange={(e) => setParticipantCount(parseInt(e.target.value))}
-              className="flex-1 rounded-xl border-2 border-gray-200 px-4 py-3 text-base focus:outline-none focus:border-indigo-500"
+              className="flex-1 rounded-xl border-2 border-gray-400 px-4 py-3 text-black focus:outline-none focus:border-indigo-500"
             />
             <button
               onClick={handleUpdateParticipants}
