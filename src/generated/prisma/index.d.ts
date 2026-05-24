@@ -3107,6 +3107,7 @@ export namespace Prisma {
     participantCount: number | null
     updatedAt: Date | null
     lastClosedAt: Date | null
+    contestName: string | null
   }
 
   export type VotingStatusMaxAggregateOutputType = {
@@ -3116,6 +3117,7 @@ export namespace Prisma {
     participantCount: number | null
     updatedAt: Date | null
     lastClosedAt: Date | null
+    contestName: string | null
   }
 
   export type VotingStatusCountAggregateOutputType = {
@@ -3125,6 +3127,7 @@ export namespace Prisma {
     participantCount: number
     updatedAt: number
     lastClosedAt: number
+    contestName: number
     _all: number
   }
 
@@ -3146,6 +3149,7 @@ export namespace Prisma {
     participantCount?: true
     updatedAt?: true
     lastClosedAt?: true
+    contestName?: true
   }
 
   export type VotingStatusMaxAggregateInputType = {
@@ -3155,6 +3159,7 @@ export namespace Prisma {
     participantCount?: true
     updatedAt?: true
     lastClosedAt?: true
+    contestName?: true
   }
 
   export type VotingStatusCountAggregateInputType = {
@@ -3164,6 +3169,7 @@ export namespace Prisma {
     participantCount?: true
     updatedAt?: true
     lastClosedAt?: true
+    contestName?: true
     _all?: true
   }
 
@@ -3260,6 +3266,7 @@ export namespace Prisma {
     participantCount: number
     updatedAt: Date
     lastClosedAt: Date | null
+    contestName: string
     _count: VotingStatusCountAggregateOutputType | null
     _avg: VotingStatusAvgAggregateOutputType | null
     _sum: VotingStatusSumAggregateOutputType | null
@@ -3288,6 +3295,7 @@ export namespace Prisma {
     participantCount?: boolean
     updatedAt?: boolean
     lastClosedAt?: boolean
+    contestName?: boolean
   }, ExtArgs["result"]["votingStatus"]>
 
   export type VotingStatusSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -3297,6 +3305,7 @@ export namespace Prisma {
     participantCount?: boolean
     updatedAt?: boolean
     lastClosedAt?: boolean
+    contestName?: boolean
   }, ExtArgs["result"]["votingStatus"]>
 
   export type VotingStatusSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -3306,6 +3315,7 @@ export namespace Prisma {
     participantCount?: boolean
     updatedAt?: boolean
     lastClosedAt?: boolean
+    contestName?: boolean
   }, ExtArgs["result"]["votingStatus"]>
 
   export type VotingStatusSelectScalar = {
@@ -3315,9 +3325,10 @@ export namespace Prisma {
     participantCount?: boolean
     updatedAt?: boolean
     lastClosedAt?: boolean
+    contestName?: boolean
   }
 
-  export type VotingStatusOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "isOpen" | "password" | "participantCount" | "updatedAt" | "lastClosedAt", ExtArgs["result"]["votingStatus"]>
+  export type VotingStatusOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "isOpen" | "password" | "participantCount" | "updatedAt" | "lastClosedAt" | "contestName", ExtArgs["result"]["votingStatus"]>
 
   export type $VotingStatusPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "VotingStatus"
@@ -3329,6 +3340,7 @@ export namespace Prisma {
       participantCount: number
       updatedAt: Date
       lastClosedAt: Date | null
+      contestName: string
     }, ExtArgs["result"]["votingStatus"]>
     composites: {}
   }
@@ -3758,6 +3770,7 @@ export namespace Prisma {
     readonly participantCount: FieldRef<"VotingStatus", 'Int'>
     readonly updatedAt: FieldRef<"VotingStatus", 'DateTime'>
     readonly lastClosedAt: FieldRef<"VotingStatus", 'DateTime'>
+    readonly contestName: FieldRef<"VotingStatus", 'String'>
   }
     
 
@@ -4163,7 +4176,8 @@ export namespace Prisma {
     password: 'password',
     participantCount: 'participantCount',
     updatedAt: 'updatedAt',
-    lastClosedAt: 'lastClosedAt'
+    lastClosedAt: 'lastClosedAt',
+    contestName: 'contestName'
   };
 
   export type VotingStatusScalarFieldEnum = (typeof VotingStatusScalarFieldEnum)[keyof typeof VotingStatusScalarFieldEnum]
@@ -4367,6 +4381,7 @@ export namespace Prisma {
     participantCount?: IntFilter<"VotingStatus"> | number
     updatedAt?: DateTimeFilter<"VotingStatus"> | Date | string
     lastClosedAt?: DateTimeNullableFilter<"VotingStatus"> | Date | string | null
+    contestName?: StringFilter<"VotingStatus"> | string
   }
 
   export type VotingStatusOrderByWithRelationInput = {
@@ -4376,6 +4391,7 @@ export namespace Prisma {
     participantCount?: SortOrder
     updatedAt?: SortOrder
     lastClosedAt?: SortOrderInput | SortOrder
+    contestName?: SortOrder
   }
 
   export type VotingStatusWhereUniqueInput = Prisma.AtLeast<{
@@ -4388,6 +4404,7 @@ export namespace Prisma {
     participantCount?: IntFilter<"VotingStatus"> | number
     updatedAt?: DateTimeFilter<"VotingStatus"> | Date | string
     lastClosedAt?: DateTimeNullableFilter<"VotingStatus"> | Date | string | null
+    contestName?: StringFilter<"VotingStatus"> | string
   }, "id">
 
   export type VotingStatusOrderByWithAggregationInput = {
@@ -4397,6 +4414,7 @@ export namespace Prisma {
     participantCount?: SortOrder
     updatedAt?: SortOrder
     lastClosedAt?: SortOrderInput | SortOrder
+    contestName?: SortOrder
     _count?: VotingStatusCountOrderByAggregateInput
     _avg?: VotingStatusAvgOrderByAggregateInput
     _max?: VotingStatusMaxOrderByAggregateInput
@@ -4414,6 +4432,7 @@ export namespace Prisma {
     participantCount?: IntWithAggregatesFilter<"VotingStatus"> | number
     updatedAt?: DateTimeWithAggregatesFilter<"VotingStatus"> | Date | string
     lastClosedAt?: DateTimeNullableWithAggregatesFilter<"VotingStatus"> | Date | string | null
+    contestName?: StringWithAggregatesFilter<"VotingStatus"> | string
   }
 
   export type ParticipantCreateInput = {
@@ -4508,6 +4527,7 @@ export namespace Prisma {
     participantCount?: number
     updatedAt?: Date | string
     lastClosedAt?: Date | string | null
+    contestName?: string
   }
 
   export type VotingStatusUncheckedCreateInput = {
@@ -4517,6 +4537,7 @@ export namespace Prisma {
     participantCount?: number
     updatedAt?: Date | string
     lastClosedAt?: Date | string | null
+    contestName?: string
   }
 
   export type VotingStatusUpdateInput = {
@@ -4526,6 +4547,7 @@ export namespace Prisma {
     participantCount?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastClosedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    contestName?: StringFieldUpdateOperationsInput | string
   }
 
   export type VotingStatusUncheckedUpdateInput = {
@@ -4535,6 +4557,7 @@ export namespace Prisma {
     participantCount?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastClosedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    contestName?: StringFieldUpdateOperationsInput | string
   }
 
   export type VotingStatusCreateManyInput = {
@@ -4544,6 +4567,7 @@ export namespace Prisma {
     participantCount?: number
     updatedAt?: Date | string
     lastClosedAt?: Date | string | null
+    contestName?: string
   }
 
   export type VotingStatusUpdateManyMutationInput = {
@@ -4553,6 +4577,7 @@ export namespace Prisma {
     participantCount?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastClosedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    contestName?: StringFieldUpdateOperationsInput | string
   }
 
   export type VotingStatusUncheckedUpdateManyInput = {
@@ -4562,6 +4587,7 @@ export namespace Prisma {
     participantCount?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastClosedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    contestName?: StringFieldUpdateOperationsInput | string
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -4736,6 +4762,7 @@ export namespace Prisma {
     participantCount?: SortOrder
     updatedAt?: SortOrder
     lastClosedAt?: SortOrder
+    contestName?: SortOrder
   }
 
   export type VotingStatusAvgOrderByAggregateInput = {
@@ -4750,6 +4777,7 @@ export namespace Prisma {
     participantCount?: SortOrder
     updatedAt?: SortOrder
     lastClosedAt?: SortOrder
+    contestName?: SortOrder
   }
 
   export type VotingStatusMinOrderByAggregateInput = {
@@ -4759,6 +4787,7 @@ export namespace Prisma {
     participantCount?: SortOrder
     updatedAt?: SortOrder
     lastClosedAt?: SortOrder
+    contestName?: SortOrder
   }
 
   export type VotingStatusSumOrderByAggregateInput = {

@@ -9,6 +9,7 @@ export default function Home() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [participantCount, setParticipantCount] = useState(12)
   const [nameMap, setNameMap] = useState<Map<number, string>>(new Map())
+  const [contestName, setContestName] = useState('Talent Xou')
 
   useEffect(() => {
     const init = async () => {
@@ -21,6 +22,7 @@ export default function Home() {
         const participantsData = await participantsRes.json()
         setIsVotingOpen(statusData.isOpen)
         setParticipantCount(statusData.participantCount)
+        if (statusData.contestName) setContestName(statusData.contestName)
         const map = new Map<number, string>(
           (participantsData.participants ?? []).map((p: { number: number; name: string }) => [p.number, p.name])
         )
@@ -90,7 +92,7 @@ export default function Home() {
       <main className="min-h-screen flex items-center justify-center p-4" style={{ background: '#E8178A' }}>
         <div className="text-center">
           <h1 className="text-5xl font-black mb-4 uppercase text-white" style={{ textShadow: '3px 3px 0px #000' }}>
-            Votacions<br />Tancades
+            {contestName}<br />Tancat
           </h1>
           <p className="text-pink-100 font-bold">Les votacions no estan disponibles en aquests moments.</p>
         </div>
@@ -107,7 +109,7 @@ export default function Home() {
           Votació
         </h1>
         <h2 className="text-2xl font-black uppercase text-yellow-300" style={{ textShadow: '2px 2px 0px #000' }}>
-          Talent Xou
+          {contestName}
         </h2>
       </div>
 

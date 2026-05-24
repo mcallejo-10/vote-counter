@@ -6,7 +6,8 @@ export async function GET() {
     const votingStatus = await prisma.votingStatus.findFirst()
     return NextResponse.json({ 
       isOpen: votingStatus?.isOpen || false,
-      participantCount: votingStatus?.participantCount || 12
+      participantCount: votingStatus?.participantCount || 12,
+      contestName: votingStatus?.contestName || 'Talent Xou',
     })
   } catch (error) {
     console.error('Error al obtener estado de votación:', error)

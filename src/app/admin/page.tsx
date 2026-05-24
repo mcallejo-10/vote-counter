@@ -13,6 +13,7 @@ export default function AdminPage() {
   const [confirmReset, setConfirmReset] = useState(false)
   const [showNames, setShowNames] = useState(false)
   const [participantNames, setParticipantNames] = useState<Record<number, string>>({})
+  const [contestName, setContestName] = useState('Talent Xou')
 
   useEffect(() => {
     const savedPassword = localStorage.getItem('adminPassword')
@@ -22,7 +23,10 @@ export default function AdminPage() {
     }
     fetch('/api/voting-status')
       .then(res => res.json())
-      .then(data => setParticipantCount(data.participantCount || 9))
+      .then(data => {
+        setParticipantCount(data.participantCount || 9)
+        if (data.contestName) setContestName(data.contestName)
+      })
       .catch(error => console.error('Error:', error))
     fetch('/api/participants')
       .then(res => res.json())
@@ -106,6 +110,29 @@ export default function AdminPage() {
 
   const handleViewResults = () => {
     window.location.href = '/results'
+  }
+
+  const handleSaveContestName = async () => {
+    if (!contestName.trim()) return
+    setIsSubmitting(true)
+    try {
+      const response = await fetch('/api/admin/update-contest-name', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password, contestName }),
+      })
+      if (response.ok) {
+        toast.success('Nom del concurs desat!')
+      } else {
+        const data = await response.json()
+        toast.error(data.error || 'Error desant el nom')
+      }
+    } catch (error) {
+      console.error('Error:', error)
+      toast.error('Error desant el nom')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const handleSaveNames = async () => {
@@ -311,6 +338,27 @@ export default function AdminPage() {
           >
             ⬇️ Descarregar CSV
           </button>
+        </div>
+
+        {/* Nom del concurs */}
+        <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
+          <p className="text-sm font-semibold text-gray-600 mb-3">Nom del concurs</p>
+          <div className="flex gap-2">
+            <input
+              type="text"
+              value={contestName}
+              onChange={(e) => setContestName(e.target.value)}
+              placeholder="Talent Xou"
+              className="flex-1 rounded-xl border-2 border-gray-400 px-4 py-3 text-black focus:outline-none focus:border-indigo-500 text-sm"
+            />
+            <button
+              onClick={handleSaveContestName}
+              disabled={isSubmitting}
+              className="px-5 py-3 bg-indigo-500 text-white font-bold rounded-xl hover:bg-indigo-600 disabled:opacity-50 text-sm"
+            >
+              Desar
+            </button>
+          </div>
         </div>
 
         {/* Configuració participants */}

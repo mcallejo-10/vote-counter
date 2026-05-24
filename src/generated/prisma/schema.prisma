@@ -28,4 +28,5 @@ model VotingStatus {
   participantCount Int       @default(12)
   updatedAt        DateTime  @updatedAt
   lastClosedAt     DateTime?
+  contestName      String    @default("Talent Xou")
 }
