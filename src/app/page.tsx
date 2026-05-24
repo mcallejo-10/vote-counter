@@ -10,6 +10,8 @@ export default function Home() {
   const [participantCount, setParticipantCount] = useState(12)
   const [nameMap, setNameMap] = useState<Map<number, string>>(new Map())
   const [contestName, setContestName] = useState('Talent Xou')
+  const [hasVoted, setHasVoted] = useState(false)
+  const [votedNumbers, setVotedNumbers] = useState<number[]>([])
 
   useEffect(() => {
     const init = async () => {
@@ -73,8 +75,8 @@ export default function Home() {
       })
 
       if (response.ok) {
-        toast.success(`¡Vots registrats amb èxit! Has votat els números ${selectedVotes.join(', ')}`)
-        setSelectedVotes([])
+        setVotedNumbers([...selectedVotes])
+        setHasVoted(true)
       } else {
         const data = await response.json()
         toast.error(data.error || 'Error al registrar els vots')
@@ -85,6 +87,37 @@ export default function Home() {
     } finally {
       setIsSubmitting(false)
     }
+  }
+
+  if (hasVoted) {
+    return (
+      <main className="min-h-screen flex items-center justify-center p-6" style={{ background: '#E8178A' }}>
+        <div className="text-center max-w-xs mx-auto">
+          <div className="text-7xl mb-4">🎉</div>
+          <h1 className="text-5xl font-black uppercase text-white mb-1" style={{ textShadow: '3px 3px 0px #000' }}>
+            Gràcies!
+          </h1>
+          <p className="text-yellow-300 font-black text-lg uppercase mb-8" style={{ textShadow: '1px 1px 0px #000' }}>
+            Vots registrats
+          </p>
+          <div className="flex justify-center gap-3 mb-8">
+            {votedNumbers.sort((a, b) => a - b).map(num => (
+              <div
+                key={num}
+                className="w-16 flex flex-col items-center justify-center bg-cyan-400 border-[3px] border-black rounded-xl py-2 px-1 font-black"
+                style={{ boxShadow: '3px 3px 0px #000' }}
+              >
+                <span className="text-2xl leading-none">{num}</span>
+                {nameMap.get(num) && (
+                  <span className="text-[9px] leading-tight text-center mt-0.5 break-words w-full px-0.5 line-clamp-2">{nameMap.get(num)}</span>
+                )}
+              </div>
+            ))}
+          </div>
+          <p className="text-pink-200 font-bold text-sm">Ja pots tancar aquesta pàgina</p>
+        </div>
+      </main>
+    )
   }
 
   if (!isVotingOpen) {

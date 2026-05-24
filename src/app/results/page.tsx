@@ -19,6 +19,7 @@ const BAR_COLORS = [
 export default function ResultsPage() {
   const [results, setResults] = useState<VoteCount[]>([])
   const [lastClosedAt, setLastClosedAt] = useState<string | null>(null)
+  const [contestName, setContestName] = useState('Talent Xou')
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState('')
 
@@ -29,6 +30,7 @@ export default function ResultsPage() {
         const data = await response.json()
         setResults(data.results)
         setLastClosedAt(data.lastClosedAt ?? null)
+        if (data.contestName) setContestName(data.contestName)
       } catch (error) {
         setError('Error al carregar els resultats')
         console.error(error)
@@ -82,7 +84,7 @@ export default function ResultsPage() {
           >
             ← Enrere
           </button>
-          <h1 className="text-xl font-bold text-gray-900">Resultats</h1>
+          <h1 className="text-xl font-bold text-gray-900">{contestName}</h1>
           <div className="w-14" />
         </div>
 

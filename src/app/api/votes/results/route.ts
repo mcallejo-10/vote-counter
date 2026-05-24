@@ -32,7 +32,11 @@ export async function GET() {
     // Ordenar por número de votos (descendente)
     results.sort((a, b) => b.count - a.count)
 
-    return NextResponse.json({ results, lastClosedAt: votingStatus?.lastClosedAt ?? null })
+    return NextResponse.json({
+      results,
+      lastClosedAt: votingStatus?.lastClosedAt ?? null,
+      contestName: votingStatus?.contestName ?? 'Talent Xou',
+    })
   } catch (error) {
     console.error('Error al obtener resultados:', error)
     return NextResponse.json(
