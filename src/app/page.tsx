@@ -12,6 +12,7 @@ export default function Home() {
   const [contestName, setContestName] = useState('Talent Xou')
   const [hasVoted, setHasVoted] = useState(false)
   const [votedNumbers, setVotedNumbers] = useState<number[]>([])
+  const [isReturning, setIsReturning] = useState(false)
 
   useEffect(() => {
     const init = async () => {
@@ -114,7 +115,21 @@ export default function Home() {
               </div>
             ))}
           </div>
-          <p className="text-pink-200 font-bold text-sm">Ja pots tancar aquesta pàgina</p>
+          <button
+            onClick={() => {
+              if (isReturning) return
+              setIsReturning(true)
+              setTimeout(() => { window.location.href = '/' }, 1500)
+            }}
+            className={`text-sm font-bold px-6 py-3 rounded-xl border-[3px] border-black transition-all ${
+              isReturning
+                ? 'bg-white text-gray-400 cursor-wait'
+                : 'bg-black text-yellow-400 hover:bg-gray-900 active:scale-95'
+            }`}
+            style={!isReturning ? { boxShadow: '3px 3px 0px rgba(255,255,255,0.3)' } : {}}
+          >
+            {isReturning ? 'Tornant...' : 'Tornar a les votacions →'}
+          </button>
         </div>
       </main>
     )
